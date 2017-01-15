@@ -44,6 +44,15 @@ bitsToArrays.prototype = {
     return true;
   },
   del: function(param_bit_index) {
+    var array_index = parseInt(param_bit_index / this._max);
+    var bits_index = parseInt(param_bit_index % this._max);
 
+    if(array_index > 2) {
+      return -1;
+    }
+
+    this._array[array_index] &= ~(1<<bits_index);
+
+    return true;
   }
 }

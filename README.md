@@ -1,10 +1,15 @@
 뭐하는 애에요?
 =====
 Javascript에서 비트마스크를 관리해주는 오브젝트입니다. C에서 64bits 비트마스크를 사용하는데, Javascript로 불러올 경우 64비트를 관리할 수 없기 때문에 만들었습니다. 내부적으로는 32bits 비트마스크를 두 개 가지고 있으며, 64번째 이후의 비트에 접근할 시에는 내부적으로 새로운 배열을 추가하여 관리합니다. 간단하게 설명하면 다음과 같습니다.
-- var a = new bitsToArrays() -> 하나의 integer값을 가지고 있는 배열 생성.
-- bitsToArrays.set(31) -> 배열에 저장된 첫 번째 integer값의 31번째 비트를 1로 체크.
-- bitsToArrays.set(32) -> 배열에 저장된 두 번째 integer값의 0번째 비트를 1로 체크. (인덱스는 자동으로 계산됩니다.)
-- bitsToArrays.set(64) -> 배열에 세 번째 integer값을 추가하고, 세 번째 integer값의 0번째 비트를 1로 체크. (인덱스는 자동으로 계산됩니다.)
+- var a = new bitsToArrays() -> bitsToArrays 객체를 초기화합니다.
+- var b = new bitsToArrays({max: 10}) -> bitsToArrays 객체를 초기화합니다. 단, 각 배열의 비트마스크 최대 크기는 10입니다.
+- a.set(31) -> 배열에 저장된 첫 번째 integer값의 31번째 비트를 1로 체크.
+- a.set(32) -> 배열에 저장된 두 번째 integer값의 0번째 비트를 1로 체크. (인덱스는 자동으로 계산됩니다.)
+- a.set(64) -> 배열에 세 번째 integer값을 추가하고, 세 번째 integer값의 0번째 비트를 1로 체크. (인덱스는 자동으로 계산됩니다.)
+
+메소드는요?
+=====
+
 
 사용법은요?
 =====

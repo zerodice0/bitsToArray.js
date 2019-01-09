@@ -29,7 +29,17 @@ bitsToArrays.prototype = {
       return -1;
     }
 
-    return this._array[array_index] &= (1<<bits_index);
+    return this._array[array_index] & (1<<bits_index);
+  },
+  getBoolean: function(param_bit_index) {
+    var array_index = parseInt(param_bit_index / this._max);
+    var bits_index = parseInt(param_bit_index % this._max);
+
+    if(array_index > 2) {
+      return -1;
+    }
+
+    return (this._array[array_index] & (1<<bits_index)) != 0;
   },
   set: function(param_bit_index) {
     var array_index = parseInt(param_bit_index / this._max);

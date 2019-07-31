@@ -1,68 +1,76 @@
-function bitsToArrays(param_options) {
+function bitsToArray(paramOption) {
   //values
-  this._max = 32;
-  this._array = [0, 0];
+  var _max = 32;
+  var _array = [0, 0];
   
-  if((param_options != undefined) && (param_options.max != undefined)) {
-    this._max = param_options.max;
+  if((paramOption != undefined) && (paramOption.max != undefined)) {
+    _max = paramOption.max;
   }
+
+  return {
+    getArray:function(paramArrayIndex){
+      if(paramArrayIndex == undefined) {
+        return _array;
+      } else if(paramArrayIndex < _array.length){
+        return _array[paramArrayIndex];
+      } 
+  
+      return null;
+    }, 
+    getMax:function(){
+      return _max;
+    },
+    get:function(paramBitIndex) {
+      var arrayIndex = parseInt(paramBitIndex / _max);
+      var bitsIndex = parseInt(paramBitIndex % _max);
+  
+      if(arrayIndex > 2) {
+        return -1;
+      }
+  
+      return _array[arrayIndex] & (1<<bitsIndex);
+    },
+    getBoolean:function(paramBitIndex) {
+      var arrayIndex = parseInt(paramBitIndex / _max);
+      var bitsIndex = parseInt(paramBitIndex % _max);
+  
+      if(arrayIndex > 2) {
+        return -1;
+      }
+  
+      return (_array[arrayIndex] & (1<<bitsIndex)) != 0;
+    },
+    set:function(paramBitIndex) {
+      var arrayIndex = parseInt(paramBitIndex / _max);
+      var bitsIndex = parseInt(paramBitIndex % _max);
+      
+      if(arrayIndex > 2) {
+        return -1;
+      }
+  
+      _array[arrayIndex] |= (1<<bitsIndex);
+  
+      return {
+        index: arrayIndex,
+        bitmask: _array[arrayIndex]
+      };
+    },
+    del:function(paramBitIndex) {
+      var arrayIndex = parseInt(paramBitIndex / _max);
+      var bitsIndex = parseInt(paramBitIndex % _max);
+  
+      if(arrayIndex > 2) {
+        return -1;
+      }
+  
+      _array[arrayIndex] &= ~(1<<bitsIndex);
+  
+      return {
+        index: arrayIndex,
+        bitmask: _array[arrayIndex]
+      }
+    }
+  };
+
 }
 
-bitsToArrays.prototype = {
-  getArray: function(param_array_index){
-    if(param_array_index == undefined) {
-      return this._array;
-    } else if(param_array_index < this._array.length){
-      return this._array[param_array_index];
-    } 
-
-    return null;
-  },
-  getMax: function(){
-    return this._max;
-  },
-  get: function(param_bit_index) {
-    var array_index = parseInt(param_bit_index / this._max);
-    var bits_index = parseInt(param_bit_index % this._max);
-
-    if(array_index > 2) {
-      return -1;
-    }
-
-    return this._array[array_index] & (1<<bits_index);
-  },
-  getBoolean: function(param_bit_index) {
-    var array_index = parseInt(param_bit_index / this._max);
-    var bits_index = parseInt(param_bit_index % this._max);
-
-    if(array_index > 2) {
-      return -1;
-    }
-
-    return (this._array[array_index] & (1<<bits_index)) != 0;
-  },
-  set: function(param_bit_index) {
-    var array_index = parseInt(param_bit_index / this._max);
-    var bits_index = parseInt(param_bit_index % this._max);
-    
-    if(array_index > 2) {
-      return -1;
-    }
-
-    this._array[array_index] |= (1<<bits_index);
-
-    return true;
-  },
-  del: function(param_bit_index) {
-    var array_index = parseInt(param_bit_index / this._max);
-    var bits_index = parseInt(param_bit_index % this._max);
-
-    if(array_index > 2) {
-      return -1;
-    }
-
-    this._array[array_index] &= ~(1<<bits_index);
-
-    return true;
-  }
-}
